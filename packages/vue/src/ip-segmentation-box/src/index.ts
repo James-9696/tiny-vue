@@ -14,43 +14,16 @@ import template from 'virtual-template?pc'
 
 export const IpSegmentationBoxProps = {
   ...$props,
-  size: String,
-
-  /**
-   * @property {String} value - 显示值
-   */
-  modelValue: String,
-
-  /**
-   * @property {String} [type = IPv4]  - IP地址输入组件类型（'IPv4', 'IPv6',）可选择
-   */
-  type: {
-    type: String,
-    default: 'IPv4',
-    validator: (value: string) => Boolean(~['IPv4', 'IPv6'].indexOf(value))
-  },
-
-  /**
-   * @property {Boolean} readonly - 只读
-   */
-  readonly: Boolean,
+  configs: Array,
 
   /**
    *  @property {Boolean} disabled - 禁用
    */
-  disabled: Boolean,
-
-  /**
-   * @property {String, Object} [delimiter = .] - 组件IP段显示的分隔符改为图标
-   */
-  delimiter: {
-    type: [String, Object],
-    default: 'icon-dot-ipv4'
-  }
+  disabled: Boolean
 }
 
 export default defineComponent({
-  name: $prefix + 'IpAddress',
+  name: $prefix + 'IpSegmentationBox',
   props: IpSegmentationBoxProps,
   setup(props, context) {
     return $setup({ props, context, template })
