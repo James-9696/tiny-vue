@@ -98,7 +98,7 @@ export const cmpMenus = [
       { 'nameCn': '文件上传', 'name': 'FileUpload', 'key': 'file-upload' },
       { 'nameCn': '表单', 'name': 'Form', 'key': 'form' },
       { 'nameCn': '输入框', 'name': 'Input', 'key': 'input' },
-      { 'nameCn': ' IP地址输入框', 'name': 'IpAddress', 'key': 'ip-address' },
+      { 'nameCn': 'IP地址输入框', 'name': 'IpAddress', 'key': 'ip-address' },
       { 'nameCn': '文字链接', 'name': 'Link', 'key': 'link' },
       { 'nameCn': '计数器', 'name': 'Numeric', 'key': 'numeric' },
       { 'nameCn': '弹出编辑', 'name': 'PopEditor', 'key': 'popeditor' },
@@ -121,7 +121,8 @@ export const cmpMenus = [
       { 'nameCn': '时间选择', 'name': 'TimeSelect', 'key': 'time-select' },
       { 'nameCn': '颜色选择器', 'name': 'ColorPicker', 'key': 'color-picker' },
       { 'nameCn': '颜色选择面板', 'name': 'ColorSelectPanel', 'key': 'color-select-panel' },
-      { 'nameCn': '查询生成器', 'name': 'QueryBuilder ', 'key': 'query-builder' }
+      { 'nameCn': '查询生成器', 'name': 'QueryBuilder ', 'key': 'query-builder' },
+      { 'nameCn': 'IP分段输入框', 'name': 'IpSegmentationBox', 'key': 'ip-segmentation-box' }
     ]
   },
   {

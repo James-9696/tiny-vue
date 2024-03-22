@@ -1703,6 +1703,19 @@
     "type": "template",
     "exclude": false
   },
+  "IpSegmentationBox": {
+    "path": "vue/src/ip-segmentation-box/index.ts",
+    "type": "component",
+    "exclude": false,
+    "mode": [
+      "pc"
+    ]
+  },
+  "IpSegmentationBoxPc": {
+    "path": "vue/src/ip-segmentation-box/src/pc.vue",
+    "type": "template",
+    "exclude": false
+  },
   "Label": {
     "path": "vue/src/label/index.ts",
     "type": "component",
