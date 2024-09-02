@@ -294,6 +294,7 @@ export const open =
             } else {
               modalBoxElem.style.left = `${clientVisibleWidth / 2 - modalBoxElem.offsetWidth / 2}px`
             }
+            on(window, 'resize', api.resetModalViewPosition)
 
             if (
               modalBoxElem.offsetHeight + modalBoxElem.offsetTop + (props.marginSize as number) >
@@ -916,4 +917,11 @@ export const showScrollbar = (lockScrollClass) => () => {
 
 export const hideScrollbar = (lockScrollClass) => () => {
   removeClass(document.body, lockScrollClass)
+}
+export const resetModalViewPosition = (api: IModalApi) => () => {
+  const modalBoxElement = api.getBox()
+  const viewportWindow = getViewportWindow()
+  let clientVisibleWidth =
+    viewportWindow.document.documentElement.clientWidth || viewportWindow.document.body.clientWidth
+  modalBoxElement.style.left = `${clientVisibleWidth / 2 - modalBoxElement.offsetWidth / 2}px`
 }
