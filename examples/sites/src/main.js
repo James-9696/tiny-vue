@@ -33,7 +33,9 @@ import '@docsearch/css'
 import { doSearchEverySite } from './tools/docsearch'
 import { getLocaleMode } from './tools/utils.js'
 import '@opentiny/vue-theme/dark-theme-index.css'
-import '@opentiny/vue-theme/responsive-index.less'
+
+// 使用相对路径，避免在site:saas或者不同站点部署时出现文件找不到的路径问题
+import '../../../packages/theme/src/responsive-index.less'
 import { customDesignConfig } from '@opentiny/vue-common'
 import { twMerge } from 'tailwind-merge'
 
