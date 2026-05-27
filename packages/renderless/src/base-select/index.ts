@@ -1875,16 +1875,48 @@ export const updateModelValue =
 export const getLabelSlotValue =
   ({ props, state }) =>
   (item) => {
-    const datas = state.datas
     const value = item.state ? item.state.currentValue : item.value
-    const data = datas.find((data) => data.value === value)
+    const currentLabel = item.state ? item.state.currentLabel : item.currentLabel || item.label
 
-    const obj = {
-      ...data,
-      label: item.state ? item.state.currentLabel : item.currentLabel,
+    // 从多个数据源查找原始选项数据
+    let data = null
+    if (state.datas && state.datas.length) {
+      data = state.datas.find((data) => data[props.valueField] === value)
+    }
+    if (!data && state.initDatas && state.initDatas.length) {
+      data = state.initDatas.find((data) => data[props.valueField] === value)
+    }
+    if (!data && state.options && state.options.length) {
+      const matchedOption = state.options.find((opt) => opt.value === value)
+      if (matchedOption) {
+        data = {
+          [props.valueField]: matchedOption.value,
+          [props.textField]: matchedOption.state ? matchedOption.state.currentLabel : matchedOption.currentLabel,
+          ...matchedOption
+        }
+      }
+    }
+    if (!data && state.cachedOptions && state.cachedOptions.length) {
+      const cached = state.cachedOptions.find((opt) => opt.value === value)
+      if (cached) {
+        data = {
+          [props.valueField]: cached.value,
+          [props.textField]: cached.state ? cached.state.currentLabel : cached.currentLabel,
+          ...cached
+        }
+      }
+    }
+
+    // FIX: 合并 data 和原始 item 的属性，确保 icon 等自定义属性不丢失
+    // item.state 是 option 组件实例，item 本身是原始数据对象
+    const rawItem = item.state || item
+
+    return {
+      ...(data || {}),
+      ...(rawItem || {}), // ← 关键：从原始 item 获取 icon 等属性
+      label: currentLabel,
       value
     }
-    return obj
   }
 
 export const computedTagsStyle =

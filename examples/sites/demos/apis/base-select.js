@@ -780,6 +780,21 @@ export default {
           mfDemo: 'slot-reference'
         },
         {
+          name: 'label',
+          type: '',
+          defaultValue: '',
+          desc: {
+            'zh-CN': '标签插槽，支持单选和多选场景',
+            'en-US': 'Label slot, supports single and multiple selection scenarios'
+          },
+          meta: {
+            stable: '3.31.0'
+          },
+          mode: ['pc'],
+          pcDemo: 'slot-label',
+          mfDemo: ''
+        },
+        {
           name: 'panel',
           desc: {
             'zh-CN': '下拉面板插槽',

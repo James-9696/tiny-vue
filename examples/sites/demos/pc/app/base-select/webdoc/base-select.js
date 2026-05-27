@@ -512,9 +512,9 @@ export default {
         'en-US': 'Reference slot'
       },
       desc: {
-        'zh-CN': '<p>通过 <code>label</code> 插槽自定义多选选中标签的 HTML 模板。</p>\n',
+        'zh-CN': '<p>通过 <code>label</code> 插槽自定义单选/多选选中标签的 HTML 模板。</p>\n',
         'en-US':
-          '<p>Customize the HTML template for multiple-choice selected labels through the <code>label</code> slot. </p>'
+          '<p>Customize the HTML template for single/multiple choice selected labels through the <code>label</code> slot.</p>'
       },
       codeFiles: ['slot-label.vue']
     },

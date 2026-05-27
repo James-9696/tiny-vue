@@ -9,6 +9,50 @@
   @apply relative;
   @apply w-full;
   @apply outline-0;
+  @apply text-sm;
+  @apply leading-normal;
+
+  // 单选模式 wrapper
+  &__single-wrap {
+    @apply relative;
+    @apply w-full;
+  }
+
+  // label 插槽覆盖层
+  &__single-label {
+    @apply absolute;
+    @apply left-3;
+    @apply top-1/2;
+    @apply ~"-translate-y-2/4";
+    @apply ~'z-[2]';
+    @apply inline-flex;
+    @apply items-center;
+    @apply gap-1;
+    @apply pointer-events-none;
+    @apply ~"max-w-[calc(100%-60px)]";
+    @apply overflow-hidden;
+    @apply text-ellipsis;
+    @apply whitespace-nowrap;
+    @apply bg-white;
+    @apply pr-1;
+    @apply rounded-sm;
+
+    // 确保图标组件正确显示
+    svg,
+    .tiny-svg {
+      @apply shrink-0;
+      @apply w-4;
+      @apply h-4;
+    }
+  }
+
+  // label 插槽激活时：input 文字透明
+  .@{input-prefix-cls}.is-label-transparent {
+    .@{input-prefix-cls}__inner {
+      @apply text-transparent;
+      caret-color: #191919;
+    }
+  }
 
   &&__multiple:not(&__collapse-tags):not(&__filterable) &__tags > span {
     // 兼容ie10-ie11

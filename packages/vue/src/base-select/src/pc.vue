@@ -261,97 +261,106 @@
             }"
           />
         </div>
-        <tiny-input
-          tiny_mode="pc"
-          v-if="!shape"
-          ref="reference"
-          v-model="state.selectedLabel"
-          type="text"
-          :placeholder="state.currentPlaceholder"
-          :name="name"
-          :id="id"
-          :autocomplete="autocomplete"
-          :size="state.selectSize"
-          :showTooltip="false"
-          :disabled="state.selectDisabled"
-          :readonly="state.readonly"
-          :display-only="state.isDisplayOnly"
-          :display-only-content="state.displayOnlyContent"
-          :unselectable="state.readonly ? 'on' : 'off'"
-          :validate-event="false"
-          :show-empty-value="showEmptyValue"
-          :input-box-type="inputBoxType"
-          :class="{
-            'is-focus': state.visible,
-            overflow: state.overflow,
-            'is-show-close': state.showClose,
-            'show-copy': copyable,
-            'show-clear': clearable
-          }"
-          :tabindex="multiple && filterable ? '-1' : tabindex"
-          @focus="handleFocus"
-          @blur="handleBlur"
-          @keyup="debouncedOnInputChange"
-          @keydown.down.stop.prevent="navigateOptions('next')"
-          @keydown.up.stop.prevent="navigateOptions('prev')"
-          @keydown.enter.prevent="selectOption"
-          @keydown.esc.stop.prevent="state.visible = false"
-          @keydown.tab="state.visible = false"
-          @paste="debouncedOnInputChange"
-          @mouseenter="onMouseenterNative"
-          @mouseleave="onMouseleaveNative"
-          @compositionend.native="handleComposition"
-        >
-          <template #prefix v-if="slots.prefix">
-            <slot name="prefix"></slot>
-          </template>
-          <template #suffix>
-            <slot name="suffix"></slot>
-            <!-- tiny 新增：xdesign 规范 ：多选限制数量时，在后缀显示 "选中/最大限制项" 计数的提示文字  -->
-            <span
-              v-if="showLimitText && multiple && multipleLimit && !state.showCopy"
-              class="tiny-base-select__limit-txt"
-            >
-              {{ state.selected.length }}/{{ multipleLimit }}
-            </span>
-            <!-- tiny 新增：xdesign 规范 ： 显示比例时，在后缀显示 "选中/全部项" 计数的提示文字  -->
-            <span
-              v-else-if="showProportion && state.selected.length > 0 && state.options.length > 1"
-              class="tiny-base-select__proportion-txt"
-            >
-              {{ state.selected.length + '/' + state.options.length }}
-            </span>
-            <span v-if="state.showCopy" class="tiny-base-select__copy" @click.stop="handleCopyClick">
-              <icon-copy class="tiny-svg-size tiny-base-select__caret"></icon-copy>
-            </span>
-
-            <icon-close
-              v-if="state.showClose"
-              class="tiny-svg-size tiny-base-select__caret icon-close"
-              @click="handleClearClick"
-              @mouseenter="state.inputHovering = true"
-            ></icon-close>
-            <!-- tiny 新增 自定义getIcon .
-              tiny 的 autoHideDownIcon=true, 显示 close时， 不显示向下的箭头。
-              aui是同时显示2个。 -->
-            <component
-              v-show="
-                state.autoHideDownIcon
-                  ? !state.showClose && !(remote && filterable && !remoteConfig.showIcon)
-                  : !(remote && filterable && !remoteConfig.showIcon)
-              "
-              :is="state.getIcon.icon"
-              :class="[
-                'tiny-svg-size',
-                'tiny-base-select__caret',
-                state.iconClass,
-                { 'is-reverse': !state.visible && state.getIcon.isDefault },
-                { 'not-reverse': !state.getIcon.isDefault }
-              ]"
-              @click="handleDropdownClick"
-            ></component>
-          </template>
-        </tiny-input>
+        <div v-if="!shape" class="tiny-base-select__single-wrap">
+          <!-- fix #1875: 单选 label 插槽覆盖层 -->
+          <div
+            v-if="slots.label && !multiple && state.selected && state.selectedLabel && (!filterable || !state.visible)"
+            class="tiny-base-select__single-label"
+          >
+            <!-- 使用 getLabelSlotValue 获取完整数据（包括 icon） -->
+            <slot name="label" :item="getLabelSlotValue(state.selected)"></slot>
+          </div>
+          <tiny-input
+            tiny_mode="pc"
+            ref="reference"
+            v-model="state.selectedLabel"
+            type="text"
+            :placeholder="state.currentPlaceholder"
+            :name="name"
+            :id="id"
+            :autocomplete="autocomplete"
+            :size="state.selectSize"
+            :showTooltip="false"
+            :disabled="state.selectDisabled"
+            :readonly="state.readonly"
+            :display-only="state.isDisplayOnly"
+            :display-only-content="state.displayOnlyContent"
+            :unselectable="state.readonly ? 'on' : 'off'"
+            :validate-event="false"
+            :show-empty-value="showEmptyValue"
+            :input-box-type="inputBoxType"
+            :class="{
+              'is-focus': state.visible,
+              overflow: state.overflow,
+              'is-show-close': state.showClose,
+              'show-copy': copyable,
+              'show-clear': clearable,
+              'is-label-transparent': slots.label && !multiple && state.selected && (!filterable || !state.visible)
+            }"
+            :tabindex="multiple && filterable ? '-1' : tabindex"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @keyup="debouncedOnInputChange"
+            @keydown.down.stop.prevent="navigateOptions('next')"
+            @keydown.up.stop.prevent="navigateOptions('prev')"
+            @keydown.enter.prevent="selectOption"
+            @keydown.esc.stop.prevent="state.visible = false"
+            @keydown.tab="state.visible = false"
+            @paste="debouncedOnInputChange"
+            @mouseenter="onMouseenterNative"
+            @mouseleave="onMouseleaveNative"
+            @compositionend.native="handleComposition"
+          >
+            <template #prefix v-if="slots.prefix">
+              <slot name="prefix"></slot>
+            </template>
+            <template #suffix>
+              <slot name="suffix"></slot>
+              <!-- tiny 新增：xdesign 规范 ：多选限制数量时，在后缀显示 "选中/最大限制项" 计数的提示文字  -->
+              <span
+                v-if="showLimitText && multiple && multipleLimit && !state.showCopy"
+                class="tiny-base-select__limit-txt"
+              >
+                {{ state.selected.length }}/{{ multipleLimit }}
+              </span>
+              <!-- tiny 新增：xdesign 规范 ： 显示比例时，在后缀显示 "选中/全部项" 计数的提示文字  -->
+              <span
+                v-else-if="showProportion && state.selected.length > 0 && state.options.length > 1"
+                class="tiny-base-select__proportion-txt"
+              >
+                {{ state.selected.length + '/' + state.options.length }}
+              </span>
+              <span v-if="state.showCopy" class="tiny-base-select__copy" @click.stop="handleCopyClick">
+                <icon-copy class="tiny-svg-size tiny-base-select__caret"></icon-copy>
+              </span>
+              <icon-close
+                v-if="state.showClose"
+                class="tiny-svg-size tiny-base-select__caret icon-close"
+                @click="handleClearClick"
+                @mouseenter="state.inputHovering = true"
+              ></icon-close>
+              <!-- tiny 新增 自定义getIcon .
+                tiny 的 autoHideDownIcon=true, 显示 close时， 不显示向下的箭头。
+                aui是同时显示2个。 -->
+              <component
+                v-show="
+                  state.autoHideDownIcon
+                    ? !state.showClose && !(remote && filterable && !remoteConfig.showIcon)
+                    : !(remote && filterable && !remoteConfig.showIcon)
+                "
+                :is="state.getIcon.icon"
+                :class="[
+                  'tiny-svg-size',
+                  'tiny-base-select__caret',
+                  state.iconClass,
+                  { 'is-reverse': !state.visible && state.getIcon.isDefault },
+                  { 'not-reverse': !state.getIcon.isDefault }
+                ]"
+                @click="handleDropdownClick"
+              ></component>
+            </template>
+          </tiny-input>
+        </div>
       </slot>
       <transition name="tiny-zoom-in-top" @before-enter="handleMenuEnter" @after-leave="doDestroy">
         <tiny-select-dropdown

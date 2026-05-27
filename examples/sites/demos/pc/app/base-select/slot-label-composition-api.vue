@@ -1,5 +1,7 @@
 <template>
   <div class="demo-select-slot-label">
+    <div>多选模式：</div>
+    <br />
     <tiny-base-select v-model="value1" placeholder="请选择" multiple>
       <template #label="{ item }">
         <img class="label-user-head" :src="imgSrc(item.value)" alt="" />
@@ -9,11 +11,12 @@
     </tiny-base-select>
     <br />
     <br />
-
-    <tiny-base-select v-model="value2" :options="options" placeholder="请选择" multiple>
+    <div>单选模式：</div>
+    <br />
+    <tiny-base-select v-model="value2" :options="options1" placeholder="请选择">
       <template #label="{ item }">
-        <img class="label-user-head" :src="imgSrc(item.value)" alt="" />
-        <span class="label-desc">{{ item.label }}</span>
+        <component :is="item.icon" />
+        <span>{{ item.label }}</span>
       </template>
     </tiny-base-select>
   </div>
@@ -22,6 +25,7 @@
 <script setup>
 import { ref } from 'vue'
 import { TinyBaseSelect, TinyOption } from '@opentiny/vue'
+import { iconFile, iconLocation, iconCopy, iconMail, iconDialog } from '@opentiny/vue-icon'
 
 const options = ref([
   {
@@ -51,8 +55,16 @@ const options = ref([
   }
 ])
 
+const options1 = ref([
+  { value: '1', label: '北京', icon: iconFile() },
+  { value: '2', label: '上海', icon: iconLocation() },
+  { value: '3', label: '天津', icon: iconCopy() },
+  { value: '4', label: '重庆', icon: iconMail() },
+  { value: '5', label: '深圳', icon: iconDialog() }
+])
+
 const value1 = ref(['选项 1', '选项 2'])
-const value2 = ref(['选项 3'])
+const value2 = ref('3')
 
 const imgSrc = (value) => {
   const option = options.value.find((option) => option.value === value)

@@ -27,6 +27,48 @@
   font-size: var(--tv-BaseSelect-font-size);
   line-height: var(--tv-BaseSelect-line-height);
 
+  // 单选模式 wrapper
+  &__single-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  // label 插槽覆盖层
+  &__single-label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+    max-width: calc(100% - 60px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    background-color: var(--tv-BaseSelect-bg-color);
+    padding-right: 4px;
+    border-radius: 2px;
+
+    // 确保图标组件正确显示
+    svg,
+    .tiny-svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  // label 插槽激活时：input 文字透明
+  .@{input-prefix-cls}.is-label-transparent {
+    .@{input-prefix-cls}__inner {
+      color: transparent;
+      caret-color: var(--tv-BaseSelect-text-color);
+    }
+  }
+
   &&__multiple:not(&__collapse-tags):not(&__filterable) &__tags > span {
     // 兼容ie10-ie11
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
